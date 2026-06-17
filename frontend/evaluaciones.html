@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evaluación de Tareas - LMS</title>
@@ -154,9 +155,9 @@
         </div>
       </div>
     </div>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="config.js"></script><script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
       const token = localStorage.getItem("userToken");
       const rol = localStorage.getItem("userRole");
       let entregaIdActual = null;
@@ -172,7 +173,7 @@
       });
       async function cargarEntregas() {
         try {
-          const res = await fetch("${API_URL}/api/entregas", {
+          const res = await fetch(`${API_URL}/api/entregas`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.ok) {
@@ -264,6 +265,6 @@
         }
       }
     </script>
-    <script src="config.js"></script><script src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

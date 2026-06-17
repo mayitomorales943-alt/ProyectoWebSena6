@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Repositorio Educativo</title>
@@ -96,10 +97,10 @@
         </div>
     </div>
 
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="config.js"></script><script>
+    <script>
         async function iniciarSesion() {
             const correo = document.getElementById('emailInput').value;
             const password = document.getElementById('passwordInput').value;
@@ -115,7 +116,7 @@
             }
 
             try {
-                const respuesta = await fetch('${API_URL}/api/login', {
+                const respuesta = await fetch(`${API_URL}/api/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -165,7 +166,7 @@
         }
     </script>
 
-    <script src="config.js"></script><script src="login-script.js"></script>
+    <script src="login-script.js"></script>
 
 </body>
 

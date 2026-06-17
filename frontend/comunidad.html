@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8">
     <title>Comunidad - Repositorio Educativo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -96,9 +97,9 @@
             </div>
         </div>
     </div>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="config.js"></script><script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const token = localStorage.getItem('userToken');
             if (!token) {
@@ -111,7 +112,7 @@
             const token = localStorage.getItem('userToken');
             const cont = document.getElementById('feedContainer');
             try {
-                const res = await fetch('${API_URL}/api/comunidad', {
+                const res = await fetch(`${API_URL}/api/comunidad`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
@@ -155,7 +156,7 @@
             if (!texto) return;
             const token = localStorage.getItem('userToken');
             try {
-                const res = await fetch('${API_URL}/api/comunidad', {
+                const res = await fetch(`${API_URL}/api/comunidad`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ texto: texto })
@@ -171,6 +172,6 @@
             }
         });
     </script>
-    <script src="config.js"></script><script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

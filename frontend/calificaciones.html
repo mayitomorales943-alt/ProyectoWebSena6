@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Calificaciones</title>
@@ -85,8 +86,8 @@
         </div>
       </div>
     </div>
-    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="config.js"></script><script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
       document.addEventListener("DOMContentLoaded", () => {
         const token = localStorage.getItem("userToken");
         const rol = localStorage.getItem("userRole");
@@ -99,7 +100,7 @@
       async function cargarCalificaciones() {
         const token = localStorage.getItem("userToken");
         try {
-          const res = await fetch("${API_URL}/api/calificaciones", {
+          const res = await fetch(`${API_URL}/api/calificaciones`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.ok) {
@@ -174,6 +175,6 @@
         }
       }
     </script>
-    <script src="config.js"></script><script src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
