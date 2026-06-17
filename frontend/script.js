@@ -30,7 +30,7 @@ if (recursoForm) {
             btn.disabled = true;
             btn.innerText = "Guardando...";
 
-            const response = await fetch('http://localhost:3000/api/recursos', {
+            const response = await fetch('${API_URL}/api/recursos', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData

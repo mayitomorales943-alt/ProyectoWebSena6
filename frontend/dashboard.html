@@ -12,7 +12,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body class="">
     <nav class="navbar navbar-dark bg-dark shadow-sm p-3">
@@ -366,10 +366,10 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script><script src="script.js"></script>
+    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="config.js"></script><script>
       document.addEventListener("DOMContentLoaded", async () => {
         const token = localStorage.getItem("userToken");
         if (!token) {
@@ -400,7 +400,7 @@
         }
         cargarNotificaciones(token);
         try {
-          const recursoRes = await fetch("http://localhost:3000/api/recursos", {
+          const recursoRes = await fetch("${API_URL}/api/recursos", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (recursoRes.ok) {
@@ -463,7 +463,7 @@
               }
               let imgSource = r.imagen ? r.imagen : defaultImage;
               let urlSafe = r.archivo_url
-                ? `http://localhost:3000${r.archivo_url}`
+                ? `${API_URL}${r.archivo_url}`
                 : "";
               let tituloSafe = r.titulo
                 .replace(/'/g, "\\'")
@@ -482,7 +482,7 @@
         const token = localStorage.getItem("userToken");
         if (!token) return;
         try {
-          const res = await fetch("http://localhost:3000/api/perfil/xp", {
+          const res = await fetch("${API_URL}/api/perfil/xp", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -562,7 +562,7 @@
         const token = localStorage.getItem("userToken");
         const texto = document.getElementById("textoReseña").value.trim();
         try {
-          const res = await fetch("http://localhost:3000/api/calificaciones", {
+          const res = await fetch("${API_URL}/api/calificaciones", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -603,7 +603,7 @@
           '<div class="text-center text-muted py-3">Cargando comentarios...</div>';
         try {
           const res = await fetch(
-            `http://localhost:3000/api/comentarios/${recursoActual}`,
+            `${API_URL}/api/comentarios/${recursoActual}`,
             { headers: { Authorization: `Bearer ${token}` } },
           );
           if (res.ok) {
@@ -634,7 +634,7 @@
           const token = localStorage.getItem("userToken");
           try {
             const res = await fetch(
-              `http://localhost:3000/api/comentarios/${recursoActual}`,
+              `${API_URL}/api/comentarios/${recursoActual}`,
               {
                 method: "POST",
                 headers: {
@@ -735,7 +735,7 @@
           '<span class="spinner-border spinner-border-sm me-2"></span>Subiendo...';
         btn.disabled = true;
         try {
-          const res = await fetch("http://localhost:3000/api/entregas", {
+          const res = await fetch("${API_URL}/api/entregas", {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
             body: formData,
@@ -788,7 +788,7 @@
       }
       async function cargarNotificaciones(token) {
         try {
-          const res = await fetch("http://localhost:3000/api/notificaciones", {
+          const res = await fetch("${API_URL}/api/notificaciones", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.ok) {

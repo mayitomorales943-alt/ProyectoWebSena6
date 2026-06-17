@@ -173,9 +173,9 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="config.js"></script><script>
       let filaActual = null;
       let usuarioIdEditando = null;
       document.addEventListener("DOMContentLoaded", async () => {
@@ -191,7 +191,7 @@
       async function cargarUsuarios() {
         const token = localStorage.getItem("userToken");
         try {
-          const res = await fetch("http://localhost:3000/api/usuarios", {
+          const res = await fetch("${API_URL}/api/usuarios", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.ok) {
@@ -227,7 +227,7 @@
           const token = localStorage.getItem("userToken");
           try {
             const res = await fetch(
-              `http://localhost:3000/api/usuarios/${id}`,
+              `${API_URL}/api/usuarios/${id}`,
               {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
@@ -297,7 +297,7 @@
             const token = localStorage.getItem("userToken");
             try {
               const res = await fetch(
-                `http://localhost:3000/api/usuarios/${usuarioIdEditando}`,
+                `${API_URL}/api/usuarios/${usuarioIdEditando}`,
                 {
                   method: "PUT",
                   headers: {
@@ -343,6 +343,6 @@
         }
       }
     </script>
-    <script src="script.js"></script>
+    <script src="config.js"></script><script src="script.js"></script>
   </body>
 </html>
