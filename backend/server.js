@@ -7,16 +7,27 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import dbConfig from './db_config.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors());
+
+// CORS: permite el frontend local y el desplegado en Render
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'http://127.0.0.1:5500',
+        /\.onrender\.com$/   // Cualquier subdominio de Render
+    ],
+    credentials: true
+}));
+
 app.use(express.json());
-// Servir el frontend desde la carpeta ../frontend (inicio.html como página principal)
-app.use(express.static(path.join(__dirname, '../frontend'), { index: 'inicio.html' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
@@ -563,7 +574,7 @@ app.put('/api/entregas/:id', verifyToken, (req, res) => {
 });
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor de la API corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor de la API corriendo en el puerto ${PORT}`);
 });
