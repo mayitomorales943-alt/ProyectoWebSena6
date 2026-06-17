@@ -188,6 +188,10 @@ const verifyToken = (req, res, next) => {
     });
 };
 
+app.get('/api/ping', (req, res) => {
+    res.json({ status: 'alive', message: 'Keep-alive ping exitoso' });
+});
+
 app.post('/api/registro', async (req, res) => {
     const { nombre, correo, password, rol } = req.body;
 
