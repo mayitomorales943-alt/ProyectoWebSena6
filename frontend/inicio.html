@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explora - Repositorio Educativo</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background: transparent;
+            padding: 1.5rem 0 0.5rem 0;
+        }
+
+        .hero-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .inicio-card {
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .inicio-image {
+            background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100%;
+        }
+
+        .feature-icon-box {
+            background-color: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .btn-custom-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-custom-outline {
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 30px;
+            font-weight: 700;
+            border-radius: 50px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-outline:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        @media (max-width: 767px) {
+            .inicio-card {
+                margin: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-custom">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold fs-4 d-flex align-items-center" href="#">
+                <i class="bi bi-mortarboard-fill me-2 fs-2"></i>
+                Aprendamos a Programar
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container d-flex justify-content-center align-items-center py-4">
+            <div class="card inicio-card w-100 border-0" style="max-width: 1000px;">
+                <div class="row g-0 h-100">
+                    
+                    <!-- Columna de Imagen (Izquierda) -->
+                    <div class="col-md-5 d-none d-md-block inicio-image">
+                    </div>
+                    
+                    <!-- Columna de Contenido (Derecha) -->
+                    <div class="col-md-7 d-flex align-items-center bg-white text-dark">
+                        <div class="card-body p-4 p-lg-5">
+                            
+                            <h1 class="h2 fw-extrabold mb-4 text-dark" style="line-height: 1.3; font-weight: 800;">
+                                Repositorio de Recursos Educativos
+                            </h1>
+                            
+                            <p class="text-secondary mb-4" style="font-size: 1.05rem; line-height: 1.6;">
+                                Tu puerta de entrada al mundo de la tecnología. Aprende a programar con materiales interactivos, guías y ejercicios de alta calidad.
+                            </p>
+                            
+                            <!-- Características -->
+                            <div class="row g-3 mb-4 text-start">
+                                <div class="col-12 col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-icon-box me-3">
+                                            <i class="bi bi-cpu fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">Conceptos Básicos</h6>
+                                            <small class="text-muted">Aprende desde cero</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="feature-icon-box me-3">
+                                            <i class="bi bi-layers fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">Múltiples Lenguajes</h6>
+                                            <small class="text-muted">HTML, CSS, JS y más</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4 text-muted opacity-25">
+                            
+                            <!-- Botones de Acción -->
+                            <div class="d-flex flex-wrap gap-3">
+                                <a href="login.html" class="btn btn-custom-primary text-decoration-none d-flex align-items-center shadow-sm">
+                                    <i class="bi bi-box-arrow-in-right fs-5 me-2"></i> Iniciar Sesión
+                                </a>
+                                <a href="index.html" class="btn btn-custom-outline text-decoration-none d-flex align-items-center">
+                                    <i class="bi bi-person-plus fs-5 me-2"></i> Registrarse
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Recursos - Aprende a Programar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .drop-zone {
+            max-width: 100%;
+            height: 120px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: inherit;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            color: #6c757d;
+            border: 2px dashed #0d6efd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone--over {
+            border-style: solid;
+            background-color: var(--bs-secondary-bg);
+            color: var(--bs-primary);
+        }
+
+        /* Oculta el botón gris feo */
+        .drop-zone__input {
+            display: none;
+        }
+
+        .drop-zone__thumb {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--bs-tertiary-bg);
+            background-size: cover;
+            position: relative;
+        }
+
+        .drop-zone__thumb::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px 0;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.75);
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="">
+    <nav class="navbar navbar-dark bg-dark p-3 shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand fw-bold mb-0" href="dashboard.html">← Volver al Panel</a>
+            <button class="btn btn-outline-light btn-sm ms-2" id="themeToggle" title="Cambiar Tema"
+                style="border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 15px;">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-cloud-arrow-up me-2"></i>Subir Nuevo Recurso</h5>
+
+                <form id="recursoForm" class="row g-3 align-items-center">
+
+                    <div class="col-md-7 row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Nombre del Recurso</label>
+                            <input type="text" id="nombreRecurso" class="form-control" placeholder="Ej. Guía de Java"
+                                required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Correo del Autor</label>
+                            <input type="email" id="correoAutor" class="form-control" placeholder="autor@edu.co"
+                                required>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label class="form-label small fw-bold text-muted">Categoría</label>
+                            <select id="categoriaRecurso" class="form-select" required>
+                                <option value="" selected disabled>Selecciona una categoría...</option>
+                                <option value="Fundamentos">Fundamentos</option>
+                                <option value="Frontend">Frontend</option>
+                                <option value="Backend">Backend</option>
+                                <option value="Creatividad">Creatividad</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="form-label small fw-bold text-muted">Descripción</label>
+                            <textarea id="descripcionRecurso" class="form-control"
+                                placeholder="¿De qué trata este material?" rows="2" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label class="form-label small fw-bold text-muted">Archivo Adjunto</label>
+                        <div class="drop-zone" id="dropZone">
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="bi bi-file-earmark-arrow-up fs-3 text-primary"></i>
+                                <span class="drop-zone__prompt small">Arrastra el archivo o haz clic</span>
+                            </div>
+                            <input type="file" class="drop-zone__input" id="fileInput" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 text-end">
+                        <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                            <i class="bi bi-save me-2"></i>Guardar Recurso
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = localStorage.getItem('userToken');
+                if (!token) {
+                    alert("Debes iniciar sesión");
+                    window.location.href = "login.html";
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:3000/api/recursos', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.ok) {
+                        const recursos = await response.json();
+                        const tbody = document.getElementById('tablaRecursos');
+                        tbody.innerHTML = '';
+                        recursos.forEach((r, idx) => {
+                            let autorTxt = (r.autor && r.autor !== 'undefined' && r.autor !== 'null') ? r.autor : 'Administrador';
+                            tbody.innerHTML += `
+                            <tr>
+                                <td>${r.id}</td>
+                                <td class="fw-bold">${r.titulo}</td>
+                                <td>${autorTxt} <br> <small class="text-muted">${r.categoria}</small></td>
+                                <td>${r.descripcion}</td>
+                                <td class="text-center text-nowrap">
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="editarRecurso(${r.id}, this)"><i class="bi bi-pencil"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarRecursoDb(${r.id}, this)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error fetching admin recursos:", error);
+                }
+            });
+
+            async function editarRecurso(id, boton) {
+                const fila = boton.closest('tr');
+                const oldTitulo = fila.cells[1].innerText;
+                const oldDesc = fila.cells[3].innerText;
+
+                const { value: formValues } = await Swal.fire({
+                    title: 'Editar Información del Recurso',
+                    html:
+                        `<input id="swal-titulo" class="swal2-input" placeholder="Nombre" value="${oldTitulo}">` +
+                        `<select id="swal-categoria" class="swal2-input" style="width:75%; margin: 1em auto; display:block;">
+                        <option value="Fundamentos">Fundamentos</option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="Creatividad">Creatividad</option>
+                    </select>` +
+                        `<textarea id="swal-desc" class="swal2-textarea" placeholder="Descripción">${oldDesc}</textarea>`,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Guardar Cambios',
+                    cancelButtonText: 'Cancelar',
+                    preConfirm: () => {
+                        return {
+                            titulo: document.getElementById('swal-titulo').value,
+                            categoria: document.getElementById('swal-categoria').value,
+                            descripcion: document.getElementById('swal-desc').value
+                        }
+                    }
+                });
+
+                if (formValues) {
+                    const token = localStorage.getItem('userToken');
+                    try {
+                        const res = await fetch(`http://localhost:3000/api/recursos/${id}`, {
+                            method: 'PUT',
+                            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formValues)
+                        });
+
+                        if (res.ok) {
+                            Swal.fire('¡Actualizado!', 'Los datos del recurso se han guardado.', 'success').then(() => window.location.reload());
+                        } else {
+                            Swal.fire('Error', 'Fallo al actualizar el recurso.', 'error');
+                        }
+                    } catch (e) { console.error(e); }
+                }
+            }
+
+            async function eliminarRecursoDb(id, boton) {
+                Swal.fire({
+                    title: '¿Eliminar recurso?',
+                    text: "No podrás revertir esto.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const token = localStorage.getItem('userToken');
+                        try {
+                            const res = await fetch('http://localhost:3000/api/recursos/' + id, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}` }
+                            });
+                            if (res.ok) {
+                                boton.closest('tr').remove();
+                                Swal.fire('Eliminado', 'Recurso borrado', 'success');
+                            } else {
+                                const errorData = await res.json();
+                                Swal.fire('Error', errorData.error || 'No tienes permiso', 'error');
+                            }
+                        } catch (e) {
+                            Swal.fire('Error', 'Fallo conexión', 'error');
+                        }
+                    }
+                });
+            }
+        </script>
+        <div class="card shadow-sm border-0" style="border-radius: 15px;">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th># ID</th>
+                            <th>Nombre</th>
+                            <th>Autor & Categoría</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaRecursos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputElement = document.getElementById("fileInput");
+            const dropZoneElement = inputElement.closest(".drop-zone");
+
+            dropZoneElement.addEventListener("click", (e) => {
+                inputElement.click();
+            });
+
+            inputElement.addEventListener("change", (e) => {
+                if (inputElement.files.length) {
+                    updateThumbnail(dropZoneElement, inputElement.files[0]);
+                }
+            });
+
+            dropZoneElement.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                dropZoneElement.classList.add("drop-zone--over");
+            });
+
+            ["dragleave", "dragend"].forEach((type) => {
+                dropZoneElement.addEventListener(type, (e) => {
+                    dropZoneElement.classList.remove("drop-zone--over");
+                });
+            });
+
+            dropZoneElement.addEventListener("drop", (e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files.length) {
+                    inputElement.files = e.dataTransfer.files;
+                    updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+                }
+                dropZoneElement.classList.remove("drop-zone--over");
+            });
+
+            function updateThumbnail(dropZoneElement, file) {
+                let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+                if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+                    dropZoneElement.querySelector(".drop-zone__prompt").remove();
+                    dropZoneElement.querySelector("i").remove();
+                }
+
+                if (!thumbnailElement) {
+                    thumbnailElement = document.createElement("div");
+                    thumbnailElement.classList.add("drop-zone__thumb");
+                    dropZoneElement.appendChild(thumbnailElement);
+                }
+
+                thumbnailElement.dataset.label = file.name;
+
+                if (file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                        thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+                    };
+                } else {
+                    thumbnailElement.style.backgroundImage = null;
+                    thumbnailElement.style.backgroundColor = "#0d6efd";
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
